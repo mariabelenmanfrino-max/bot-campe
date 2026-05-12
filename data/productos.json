@@ -1,0 +1,167 @@
+{
+  "categorias": ["empanadas", "pastas", "salsas", "tartas", "facturas"],
+  "productos": [
+    {
+      "id": "EMP001",
+      "nombre": "Empanadas de carne (docena)",
+      "categoria": "empanadas",
+      "precio": 6500,
+      "stock": 60,
+      "unidad": "docena",
+      "descripcion": "Empanadas criollas de carne cortada a cuchillo con papa, huevo duro y aceitunas. Masa casera."
+    },
+    {
+      "id": "EMP002",
+      "nombre": "Empanadas de pollo (docena)",
+      "categoria": "empanadas",
+      "precio": 5800,
+      "stock": 50,
+      "unidad": "docena",
+      "descripcion": "Empanadas de pollo deshuesado con morrón, cebolla y condimentos. Jugosas y sabrosas."
+    },
+    {
+      "id": "EMP003",
+      "nombre": "Empanadas de jamón y queso (docena)",
+      "categoria": "empanadas",
+      "precio": 5500,
+      "stock": 45,
+      "unidad": "docena",
+      "descripcion": "Empanadas con jamón cocido de calidad y queso cuartirolo. Clásico irresistible."
+    },
+    {
+      "id": "EMP004",
+      "nombre": "Empanadas de humita (docena)",
+      "categoria": "empanadas",
+      "precio": 5200,
+      "stock": 30,
+      "unidad": "docena",
+      "descripcion": "Empanadas de choclo cremoso con albahaca. Opción vegetariana."
+    },
+    {
+      "id": "EMP005",
+      "nombre": "Empanadas caprese (docena)",
+      "categoria": "empanadas",
+      "precio": 5800,
+      "stock": 25,
+      "unidad": "docena",
+      "descripcion": "Empanadas con mozzarella, tomate y albahaca fresca. Opción vegetariana."
+    },
+    {
+      "id": "PAS001",
+      "nombre": "Ñoquis de papa (500g)",
+      "categoria": "pastas",
+      "precio": 2800,
+      "stock": 40,
+      "unidad": "500g",
+      "descripcion": "Ñoquis artesanales de papa, livianos y esponjosos. Rinden para 2 porciones."
+    },
+    {
+      "id": "PAS002",
+      "nombre": "Fideos frescos al huevo (500g)",
+      "categoria": "pastas",
+      "precio": 2600,
+      "stock": 35,
+      "unidad": "500g",
+      "descripcion": "Tallarines frescos al huevo. Disponibles en espagueti, fettuccine o cintas."
+    },
+    {
+      "id": "PAS003",
+      "nombre": "Lasagna fresca (bandeja 4 porciones)",
+      "categoria": "pastas",
+      "precio": 5500,
+      "stock": 20,
+      "unidad": "bandeja",
+      "descripcion": "Lasagna lista para hornear con carne y bechamel. Rinde 4 porciones generosas."
+    },
+    {
+      "id": "PAS004",
+      "nombre": "Ravioles de ricota y espinaca (500g)",
+      "categoria": "pastas",
+      "precio": 3800,
+      "stock": 30,
+      "unidad": "500g",
+      "descripcion": "Ravioles rellenos con ricota y espinaca fresca. Masa fina y delicada."
+    },
+    {
+      "id": "SAL001",
+      "nombre": "Salsa bolognesa (500g)",
+      "categoria": "salsas",
+      "precio": 2900,
+      "stock": 50,
+      "unidad": "500g",
+      "descripcion": "Salsa a la bolognesa con carne picada premium, tomate perita y verduras. Lista para calentar."
+    },
+    {
+      "id": "SAL002",
+      "nombre": "Tuco casero (500g)",
+      "categoria": "salsas",
+      "precio": 2200,
+      "stock": 60,
+      "unidad": "500g",
+      "descripcion": "Tuco de tomate natural con albahaca y orégano. Receta tradicional italiana."
+    },
+    {
+      "id": "SAL003",
+      "nombre": "Estofado de carne (500g)",
+      "categoria": "salsas",
+      "precio": 3500,
+      "stock": 25,
+      "unidad": "500g",
+      "descripcion": "Estofado de carne tierna con papas y vegetales. Ideal para acompañar fideos o arroz."
+    },
+    {
+      "id": "TAR001",
+      "nombre": "Tarta de jamón y queso (entera)",
+      "categoria": "tartas",
+      "precio": 4800,
+      "stock": 15,
+      "unidad": "entera",
+      "descripcion": "Tarta de 8 porciones con jamón cocido, queso cremoso y huevo. Masa hojaldrada."
+    },
+    {
+      "id": "TAR002",
+      "nombre": "Tarta de verdura (entera)",
+      "categoria": "tartas",
+      "precio": 4500,
+      "stock": 12,
+      "unidad": "entera",
+      "descripcion": "Tarta vegetariana con acelga, zapallito, morrón y ricota. Nutritiva y sabrosa."
+    },
+    {
+      "id": "TAR003",
+      "nombre": "Tarta de espinaca y ricota (entera)",
+      "categoria": "tartas",
+      "precio": 4600,
+      "stock": 10,
+      "unidad": "entera",
+      "descripcion": "Tarta clásica con espinaca fresca y ricota. Opción vegetariana muy solicitada."
+    },
+    {
+      "id": "FAC001",
+      "nombre": "Medialunas de manteca (docena)",
+      "categoria": "facturas",
+      "precio": 3200,
+      "stock": 80,
+      "unidad": "docena",
+      "descripcion": "Medialunas de manteca, crocantes por fuera y suaves por dentro. Horneadas al momento."
+    },
+    {
+      "id": "FAC002",
+      "nombre": "Medialunas de grasa (docena)",
+      "categoria": "facturas",
+      "precio": 2800,
+      "stock": 70,
+      "unidad": "docena",
+      "descripcion": "Medialunas de grasa, estilo tradicional porteño. Perfectas para el mate."
+    },
+    {
+      "id": "FAC003",
+      "nombre": "Surtido de facturas (docena)",
+      "categoria": "facturas",
+      "precio": 3500,
+      "stock": 40,
+      "unidad": "docena",
+      "descripcion": "Surtido variado: vigilantes, cañoncitos, berlinesas y palmeras. Ideal para reuniones."
+    }
+  ]
+}

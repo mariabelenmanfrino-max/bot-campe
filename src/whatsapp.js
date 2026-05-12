@@ -1,26 +1,14 @@
-require('dotenv').config();
 const axios = require('axios');
 
 const WHATSAPP_API_URL = 'https://graph.facebook.com/v21.0';
-const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID;
-const TOKEN = process.env.WHATSAPP_TOKEN;
-const VERIFY_TOKEN = process.env.WEBHOOK_VERIFY_TOKEN;
+
+// Leídos en cada llamada para reflejar siempre el valor actual de process.env
+function getToken() { return process.env.WHATSAPP_TOKEN; }
+function getPhoneId() { return process.env.WHATSAPP_PHONE_NUMBER_ID; }
 
 // IDs de mensajes ya procesados para evitar duplicados
 const mensajesProcesados = new Set();
 const MAX_IDS_CACHE = 500;
-
-function verificarWebhook(query) {
-  const mode = query['hub.mode'];
-  const token = query['hub.verify_token'];
-  const challenge = query['hub.challenge'];
-
-  if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-    console.log('[WEBHOOK] Verificación exitosa');
-    return { ok: true, challenge };
-  }
-  return { ok: false };
-}
 
 function parsearMensaje(body) {
   try {
@@ -32,10 +20,8 @@ function parsearMensaje(body) {
 
     const mensaje = value.messages[0];
 
-    // Solo procesar mensajes de texto
     if (mensaje.type !== 'text') return null;
 
-    // Deduplicación
     if (mensajesProcesados.has(mensaje.id)) {
       console.log(`[WEBHOOK] Mensaje duplicado ignorado: ${mensaje.id}`);
       return null;
@@ -63,7 +49,7 @@ function parsearMensaje(body) {
 async function enviarMensaje(destinatario, texto) {
   try {
     const response = await axios.post(
-      `${WHATSAPP_API_URL}/${PHONE_NUMBER_ID}/messages`,
+      `${WHATSAPP_API_URL}/${getPhoneId()}/messages`,
       {
         messaging_product: 'whatsapp',
         recipient_type: 'individual',
@@ -73,7 +59,7 @@ async function enviarMensaje(destinatario, texto) {
       },
       {
         headers: {
-          Authorization: `Bearer ${TOKEN}`,
+          Authorization: `Bearer ${getToken()}`,
           'Content-Type': 'application/json',
         },
       }
@@ -90,7 +76,7 @@ async function enviarMensaje(destinatario, texto) {
 async function marcarComoLeido(messageId) {
   try {
     await axios.post(
-      `${WHATSAPP_API_URL}/${PHONE_NUMBER_ID}/messages`,
+      `${WHATSAPP_API_URL}/${getPhoneId()}/messages`,
       {
         messaging_product: 'whatsapp',
         status: 'read',
@@ -98,14 +84,14 @@ async function marcarComoLeido(messageId) {
       },
       {
         headers: {
-          Authorization: `Bearer ${TOKEN}`,
+          Authorization: `Bearer ${getToken()}`,
           'Content-Type': 'application/json',
         },
       }
     );
   } catch {
-    // No crítico, ignoramos errores de read receipt
+    // No crítico
   }
 }
 
-module.exports = { verificarWebhook, parsearMensaje, enviarMensaje, marcarComoLeido };
+module.exports = { parsearMensaje, enviarMensaje, marcarComoLeido };

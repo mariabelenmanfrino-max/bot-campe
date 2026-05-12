@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const { verificarWebhook, parsearMensaje, enviarMensaje, marcarComoLeido } = require('./src/whatsapp');
+const { parsearMensaje, enviarMensaje, marcarComoLeido } = require('./src/whatsapp');
 const { procesarMensaje } = require('./src/claude');
 
 const app = express();
@@ -21,11 +21,19 @@ app.get('/', (req, res) => {
 
 // Verificación del webhook de Meta
 app.get('/webhook', (req, res) => {
-  const resultado = verificarWebhook(req.query);
-  if (resultado.ok) {
-    return res.status(200).send(resultado.challenge);
+  const mode      = req.query['hub.mode'];
+  const token     = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+  const expected  = process.env.WEBHOOK_VERIFY_TOKEN;
+
+  console.log(`[WEBHOOK] mode=${mode} token=${token} expected=${expected}`);
+
+  if (mode === 'subscribe' && token === expected) {
+    console.log('[WEBHOOK] Verificación exitosa');
+    return res.status(200).send(challenge);
   }
-  console.warn('[WEBHOOK] Verificación fallida. Token incorrecto.');
+
+  console.warn('[WEBHOOK] Verificación fallida: token no coincide');
   res.sendStatus(403);
 });
 

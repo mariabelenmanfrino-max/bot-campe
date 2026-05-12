@@ -1,26 +1,16 @@
 require('dotenv').config();
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
 const { verificarWebhook, parsearMensaje, enviarMensaje, marcarComoLeido } = require('./src/whatsapp');
 const { procesarMensaje } = require('./src/claude');
 
-const LOG_PATH = path.join(__dirname, 'bot.log');
-const logStream = fs.createWriteStream(LOG_PATH, { flags: 'a' });
-
-function log(...args) {
-  const line = `${new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' })} ${args.join(' ')}\n`;
-  process.stdout.write(line);
-  logStream.write(line);
-}
-// Reemplazar console.log/warn/error globalmente para que todo vaya al log
-const _log = console.log.bind(console);
-console.log = (...a) => log(...a);
-console.warn = (...a) => log('[WARN]', ...a);
-console.error = (...a) => log('[ERR]', ...a);
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+// Railway inyecta PORT automáticamente. Nunca hardcodear 3000 en producción.
+const PORT = process.env.PORT;
+if (!PORT) {
+  console.error('[ERROR] La variable de entorno PORT no está definida. Railway debe inyectarla automáticamente.');
+  process.exit(1);
+}
 
 app.use(express.json());
 
@@ -51,13 +41,8 @@ app.post('/webhook', async (req, res) => {
   console.log(`[MSG] De: ${nombre} (${from}) | Texto: "${texto}"`);
 
   try {
-    // Marcar como leído para mostrar tilde azul
     await marcarComoLeido(messageId);
-
-    // Procesar con Claude
     const respuesta = await procesarMensaje(from, texto);
-
-    // Enviar respuesta por WhatsApp
     await enviarMensaje(from, respuesta);
   } catch (error) {
     console.error(`[ERROR] Al procesar mensaje de ${from}:`, error.message);
@@ -72,7 +57,7 @@ app.post('/webhook', async (req, res) => {
   }
 });
 
-// Endpoint para ver pedidos (protegido con token básico para uso interno)
+// Ver pedidos (uso interno)
 app.get('/pedidos', (req, res) => {
   const authHeader = req.headers['authorization'];
   const token = process.env.ADMIN_TOKEN;
@@ -82,7 +67,6 @@ app.get('/pedidos', (req, res) => {
   }
 
   try {
-    const pedidos = require('./src/orders');
     const fs = require('fs');
     const path = require('path');
     const raw = fs.readFileSync(path.join(__dirname, 'data', 'pedidos.json'), 'utf-8');
@@ -92,16 +76,14 @@ app.get('/pedidos', (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log('================================================');
   console.log('  La Campechana - Bot de WhatsApp');
-  console.log(`  Servidor corriendo en http://localhost:${PORT}`);
-  console.log(`  Webhook: POST http://localhost:${PORT}/webhook`);
+  console.log(`  Puerto: ${PORT}`);
   console.log('================================================');
 });
 
-// Manejo graceful de cierre
-process.on('SIGINT', () => {
-  console.log('\n[BOT] Cerrando servidor...');
+process.on('SIGTERM', () => {
+  console.log('[BOT] Cerrando servidor (SIGTERM)...');
   process.exit(0);
 });
